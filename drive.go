@@ -50,12 +50,17 @@ func (op MoveOp) String() string {
 }
 
 // Configures the left and right motors to their ports and some states
-func (d *Drive) Configure(leftMotor, rightMotor Motor.OutPort, gyro *Sensors.GyroSensor) {
+func (d *Drive) Configure(leftMotor, rightMotor Motor.OutPort, gyro *Sensors.GyroSensor, regulationMode bool) {
 	d.leftMotor = leftMotor
 	d.rightMotor = rightMotor
 	d.gyro = gyro
-	Motor.EnableRegulationMode(leftMotor)
-	Motor.EnableRegulationMode(rightMotor)
+	if regulationMode {
+		Motor.EnableRegulationMode(leftMotor)
+		Motor.EnableRegulationMode(rightMotor)
+	} else {
+		Motor.DisableRegulationMode(leftMotor)
+		Motor.DisableRegulationMode(rightMotor)
+	}
 }
 
 // Steering power curve function for left wheel based in percent [-100..100] of turn.
@@ -98,7 +103,7 @@ func (d *Drive) MoveSteering(op MoveOp, args ...interface{}) error {
 	var err error     // Start with no err
 	argc := len(args) // How many arguments
 
-	fmt.Printf("\n%s, %#v\n", op, args)
+	//fmt.Printf("\n%s, %#v\n", op, args)
 	if argc == 0 {
 		return errors.New("No op specified")
 	}
