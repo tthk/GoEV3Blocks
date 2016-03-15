@@ -122,7 +122,7 @@ func (d *Drive) MoveSteering(op MoveOp, args ...interface{}) error {
 			time.Sleep(250 * time.Millisecond) // Yield so goroutine to stop may run
 		} else {
 			// Stop motors
-			fmt.Println("Stopping motors!")
+			//fmt.Println("Stopping motors!")
 			Motor.Stop(d.leftMotor)
 			Motor.Stop(d.rightMotor)
 		}
